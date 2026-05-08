@@ -1,0 +1,2500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NexaCraft — A Creative Agency" />
+  <title>NexaCraft — Creative Agency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+/* ================================================================
+   NEXACRAFT — Creative Agency Demo
+   CSS Techniques Demonstrated:
+   ✅ All 6 Selector Types
+   ✅ ::before & ::after (6+ uses)
+   ✅ 3D Transforms (rotateY, perspective, translateZ)
+   ✅ @keyframes Animations (typing, fade, slide, marquee, float)
+   ✅ Advanced Hover Effects (glow, lift, rotate, scale)
+   ✅ CSS Grid + Flexbox Combined
+   ✅ All 5 Positioning Types (static, relative, absolute, fixed, sticky)
+   ✅ CSS Variables
+   ✅ Responsive Design (mobile-first)
+   ✅ CSS Combinators (descendant, child, adjacent sibling)
+================================================================ */
+
+/* ----------------------------------------------------------------
+   CSS VARIABLES — (Custom Properties)
+---------------------------------------------------------------- */
+:root {
+  --bg:        #0a0a0f;
+  --bg-card:   #111118;
+  --bg-light:  #16161f;
+  --accent:    #e8ff47;          /* electric lime */
+  --accent-2:  #7c5cfc;          /* purple */
+  --accent-3:  #ff5c7c;          /* coral */
+  --text:      #f0f0f5;
+  --text-muted:#8888aa;
+  --border:    rgba(255,255,255,0.07);
+
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  --radius:    12px;
+  --radius-lg: 24px;
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow:    0 20px 60px rgba(0,0,0,0.4);
+}
+
+/* ================================================================
+   BASE RESET & GLOBAL
+================================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+/* ----------------------------------------------------------------
+   SELECTOR TYPE 1 — ELEMENT SELECTOR
+   Targets: body, a, ul, img, etc.
+---------------------------------------------------------------- */
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* ----------------------------------------------------------------
+   UTILITY CLASSES
+---------------------------------------------------------------- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ----------------------------------------------------------------
+   SELECTOR TYPE 2 — CLASS SELECTOR
+   Targets: .btn, .section-title, .section-header, etc.
+---------------------------------------------------------------- */
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+/* ----------------------------------------------------------------
+   PSEUDO-ELEMENT #1 — ::after on .section-title
+   Creates a decorative animated underline under headings
+---------------------------------------------------------------- */
+.section-title {
+  font-family: var(--font-head);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  position: relative; /* needed for ::after to position correctly */
+}
+
+.section-title span {
+  color: var(--accent);
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ----------------------------------------------------------------
+   BUTTONS — Class selectors + pseudo-class :hover
+---------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  position: relative; /* POSITIONING TYPE 1: static is default, this is relative */
+  overflow: hidden;
+}
+
+/* PSEUDO-ELEMENT #2 — ::before on .btn
+   Creates a sliding hover effect background */
+.btn::before {
+  content: '';
+  position: absolute;  /* POSITIONING TYPE 3: absolute inside relative parent */
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.15);
+  transition: left 0.3s ease;
+  border-radius: inherit;
+}
+
+/* SELECTOR TYPE 5 — PSEUDO-CLASS SELECTOR :hover */
+.btn:hover::before {
+  left: 0;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #000;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(232, 255, 71, 0.35);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.btn-full {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ================================================================
+   CSS COMBINATORS — Relationship Selectors
+   Demonstrates: descendant, child, and adjacent sibling combinators
+================================================================ */
+
+/* ----------------------------------------------------------------
+   COMBINATOR #1 — DESCENDANT COMBINATOR (space)
+   Syntax: A B
+   Selects ALL B elements that are descendants of A (any level deep)
+---------------------------------------------------------------- */
+
+/* Example 1: All paragraphs inside .section-header */
+.section-header p {
+  /* Targets ALL <p> tags inside .section-header at any nesting level */
+  line-height: 1.7;
+}
+
+/* Example 2: All links inside .footer-col */
+.footer-col a {
+  /* Targets ALL anchor tags inside .footer-col, regardless of depth */
+  display: inline-block;
+}
+
+/* Example 3: All images inside .portfolio-item */
+.portfolio-item img {
+  /* Targets ALL images inside portfolio items */
+  filter: brightness(0.95);
+}
+
+/* ----------------------------------------------------------------
+   COMBINATOR #2 — CHILD COMBINATOR (>)
+   Syntax: A > B
+   Selects ONLY B elements that are DIRECT children of A (one level only)
+---------------------------------------------------------------- */
+
+/* Example 1: Only direct .service-card children of .services-grid */
+.services-grid > .service-card {
+  /* Only targets .service-card that are DIRECT children */
+  /* Won't select nested cards inside other elements */
+  margin-bottom: 0; /* override any nested spacing */
+}
+
+/* Example 2: Only direct children of .team-grid */
+.team-grid > .team-card {
+  /* More specific than descendant selector */
+  /* Only affects immediate children, not nested cards */
+  position: relative;
+}
+
+/* Example 3: Direct list items in footer columns */
+.footer-col > ul > li {
+  /* Targets only direct <li> children of <ul> which is a direct child of .footer-col */
+  padding-left: 0;
+}
+
+/* ----------------------------------------------------------------
+   COMBINATOR #3 — ADJACENT SIBLING COMBINATOR (+)
+   Syntax: A + B
+   Selects B element that comes IMMEDIATELY after A (same parent)
+---------------------------------------------------------------- */
+
+/* Example 1: Paragraph immediately after a heading */
+.section-title + .section-subtitle {
+  /* Targets .section-subtitle that comes RIGHT AFTER .section-title */
+  margin-top: 0.5rem;
+  opacity: 0.9;
+}
+
+/* Example 2: Add spacing between consecutive service cards */
+.service-card + .service-card {
+  /* Targets any .service-card that comes immediately after another .service-card */
+  /* Useful for adding spacing between siblings */
+  margin-top: 0;
+}
+
+/* Example 3: Style form groups that follow other form groups */
+.form-group + .form-group {
+  /* Adds consistent spacing between consecutive form groups */
+  margin-top: 0; /* spacing already handled by parent gap */
+}
+
+/* Example 4: Button that comes after hero content */
+.hero-subtitle + .hero-cta {
+  /* Targets .hero-cta that immediately follows .hero-subtitle */
+  margin-top: 0.5rem;
+}
+
+/* ----------------------------------------------------------------
+   BONUS: GENERAL SIBLING COMBINATOR (~)
+   Syntax: A ~ B
+   Selects ALL B elements that come after A (same parent, not necessarily adjacent)
+---------------------------------------------------------------- */
+
+/* Example: All paragraphs that come after the first paragraph in about-content */
+.about-content p ~ p {
+  /* Targets all <p> tags that come after the first <p> */
+  margin-top: 1rem;
+}
+
+/* Example: All stat badges after the first one */
+.stat-badge ~ .stat-badge {
+  /* Targets all .stat-badge elements that come after another .stat-badge */
+  /* Useful for styling all siblings except the first */
+  margin-top: 0;
+}
+
+
+/* ================================================================
+   NAVBAR
+   POSITIONING TYPE 4: position — fixed
+================================================================ */
+.navbar {
+  position: fixed;          /* ← FIXED: stays on screen while scrolling */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1.2rem 0;
+  transition: background var(--transition), padding var(--transition);
+}
+
+/* When scrolled — JS adds .scrolled class */
+.navbar.scrolled {
+  background: rgba(10, 10, 15, 0.92);
+  backdrop-filter: blur(20px);
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;          /* FLEXBOX */
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ----------------------------------------------------------------
+   SELECTOR TYPE 3 — ID SELECTOR
+   #navbar used for JS targeting — shown in CSS too
+---------------------------------------------------------------- */
+#navbar {
+  /* ID selector — highest specificity among element/class/id */
+  /* In this case we're just using it as a reference point */
+}
+
+/* ----------------------------------------------------------------
+   PSEUDO-ELEMENT #3 — ::before on .nav-logo
+   Creates the accent dot before the logo text
+---------------------------------------------------------------- */
+.nav-logo {
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+  position: relative;
+}
+
+.nav-logo::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+
+.nav-logo:hover::before {
+  width: 100%;
+}
+
+.nav-logo span {
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+}
+
+/* ----------------------------------------------------------------
+   SELECTOR TYPE 4 — ATTRIBUTE SELECTOR
+   Targets anchor tags with href attribute
+---------------------------------------------------------------- */
+.nav-links a[href] {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  transition: var(--transition);
+  position: relative;
+}
+
+/* PSEUDO-ELEMENT #4 — ::after on nav links
+   Creates underline indicator for hover */
+.nav-links a[href]::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+.nav-links a[href]:hover {
+  color: var(--text);
+}
+
+.nav-links a[href]:hover::after {
+  width: 60%;
+}
+
+/* Hamburger — hidden on desktop */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+
+/* ================================================================
+   HERO SECTION
+================================================================ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 2rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;        /* POSITIONING TYPE 2: relative — for absolute children */
+  overflow: hidden;
+}
+
+.hero-content {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+
+  /* ANIMATION: fade in from below */
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.hero-title {
+  font-family: var(--font-head);
+  font-size: clamp(3rem, 7vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.0;
+  margin-bottom: 1.5rem;
+
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+/* ================================================================
+   @KEYFRAMES ANIMATION #1 — TYPING EFFECT
+   The cursor blinks and text appears character by character
+================================================================ */
+.typing-text {
+  color: var(--accent);
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid var(--accent);  /* the blinking cursor */
+
+  /* Typing animation: text reveals itself */
+  animation:
+    typing 2.5s steps(20) forwards,     /* reveals text */
+    blink-caret 0.75s step-end infinite; /* cursor blink */
+  animation-delay: 1.2s;
+  width: 0;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes blink-caret {
+  0%, 100% { border-color: var(--accent); }
+  50%       { border-color: transparent;  }
+}
+
+.hero-subtitle {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.6s;
+  opacity: 0;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.8s;
+  opacity: 0;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;          /* POSITIONING TYPE 3: absolute */
+  bottom: -2rem;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.scroll-line {
+  width: 40px;
+  height: 1px;
+  background: var(--text-muted);
+  position: relative;
+  overflow: hidden;
+}
+
+/* PSEUDO-ELEMENT #5 — ::after on .scroll-line
+   Creates an animated moving line */
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  animation: scrollLine 1.5s ease infinite;
+}
+
+@keyframes scrollLine {
+  0%   { left: -100%; }
+  100% { left: 100%;  }
+}
+
+/* ----------------------------------------------------------------
+   HERO FLOATING SHAPES — position: absolute
+---------------------------------------------------------------- */
+.hero-shapes {
+  position: absolute;        /* POSITIONING TYPE 3: absolute */
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* SELECTOR TYPE 6 — PSEUDO-CLASS :nth-child
+   Each shape gets different animation delay and color */
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+}
+
+/* :nth-child pseudo-class to target specific shapes */
+.shape:nth-child(1) {
+  width: 500px;
+  height: 500px;
+  background: var(--accent-2);
+  top: -100px;
+  right: -100px;
+  animation: floatShape 8s ease-in-out infinite;
+}
+
+.shape:nth-child(2) {
+  width: 300px;
+  height: 300px;
+  background: var(--accent);
+  bottom: 100px;
+  right: 300px;
+  animation: floatShape 6s ease-in-out infinite reverse;
+}
+
+.shape:nth-child(3) {
+  width: 200px;
+  height: 200px;
+  background: var(--accent-3);
+  top: 200px;
+  right: 500px;
+  animation: floatShape 10s ease-in-out infinite;
+  animation-delay: -3s;
+}
+
+/* ================================================================
+   @KEYFRAMES ANIMATION #2 — FLOATING SHAPES
+================================================================ */
+@keyframes floatShape {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-40px) scale(1.05); }
+}
+
+/* Hero stats on the right */
+.hero-stats {
+  position: absolute;        /* POSITIONING TYPE 3: absolute */
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 2;
+}
+
+.stat-badge {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.5rem;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.stat-badge:hover {
+  border-color: var(--accent);
+  transform: translateX(-5px);
+}
+
+.stat-number {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hero-img-wrap {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  width: 280px;
+  height: 200px;
+  border: 1px solid var(--border);
+}
+
+.hero-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.hero-img-wrap:hover img {
+  transform: scale(1.05);
+}
+
+/* ================================================================
+   MARQUEE / TICKER
+   @keyframes infinite horizontal scroll
+================================================================ */
+.marquee-wrap {
+  overflow: hidden;
+  background: var(--bg-light);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 1.2rem 0;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 2.5rem;
+  width: max-content;
+
+  /* ================================================================
+     @KEYFRAMES ANIMATION #3 — MARQUEE SCROLL
+  ================================================================ */
+  animation: marquee 25s linear infinite;
+}
+
+.marquee-track span {
+  font-family: var(--font-head);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* The ✦ separators */
+.marquee-track span:nth-child(even) {
+  color: var(--accent);
+  font-size: 0.7rem;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+
+/* ================================================================
+   SERVICES SECTION
+================================================================ */
+.services {
+  padding: 8rem 0;
+  position: relative;        /* POSITIONING TYPE 2: relative */
+}
+
+/* ----------------------------------------------------------------
+   POSITIONING TYPE 5 — STICKY
+   .section-label stays visible as you scroll through the section
+---------------------------------------------------------------- */
+.section-label {
+  position: sticky;          /* ← STICKY: sticks within its parent */
+  top: 100px;
+  float: left;
+  font-family: var(--font-head);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  padding-left: 2rem;
+  height: fit-content;
+}
+
+.services-grid {
+  display: grid;             /* CSS GRID */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* ================================================================
+   SERVICE CARD — 3D PERSPECTIVE TILT ON HOVER
+   Uses: transform, perspective, rotateX/Y, translateZ
+================================================================ */
+.service-card {
+  perspective: 1000px;       /* needed for 3D child transforms */
+  cursor: pointer;
+}
+
+.service-card-inner {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  height: 100%;
+  position: relative;        /* POSITIONING TYPE 2: relative — for ::before */
+  overflow: hidden;
+  transition: transform 0.4s ease, border-color 0.3s ease;
+  transform-style: preserve-3d; /* enables 3D for children */
+}
+
+/* ================================================================
+   3D HOVER EFFECT on service cards
+   On hover: card tilts in 3D + lifts up
+================================================================ */
+.service-card:hover .service-card-inner {
+  transform: rotateY(-5deg) rotateX(3deg) translateY(-8px);
+  border-color: var(--accent);
+}
+
+/* PSEUDO-ELEMENT #6 — ::before on .service-card-inner
+   Creates the animated glow gradient that sweeps across the card */
+.service-card-inner::before {
+  content: '';
+  position: absolute;        /* POSITIONING TYPE 3: absolute */
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, rgba(232,255,71,0.08) 0%, transparent 60%);
+  transition: opacity 0.4s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.service-card:hover .service-card-inner::before {
+  opacity: 1;
+  /* JS moves this dynamically, but CSS handles the base state */
+}
+
+/* ----------------------------------------------------------------
+   DATA ATTRIBUTE SELECTOR — [data-index]
+   Selects cards by their data-index attribute
+   Shown in the number badge display
+---------------------------------------------------------------- */
+.service-card[data-index]::after {
+  content: attr(data-index); /* reads the data-index attribute value! */
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-family: var(--font-head);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+
+.service-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(232, 255, 71, 0.08);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+}
+
+.service-card:hover .service-icon {
+  background: var(--accent);
+  color: #000;
+  transform: rotate(10deg) scale(1.1);
+}
+
+.service-card-inner h3 {
+  font-family: var(--font-head);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.service-card-inner p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.service-link {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: gap 0.2s ease;
+}
+
+.service-link:hover {
+  gap: 1rem;
+}
+
+/* ================================================================
+   @KEYFRAMES ANIMATION #4 — FADE IN UP
+   Used on multiple sections for entrance effect
+================================================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ================================================================
+   PORTFOLIO SECTION
+================================================================ */
+.portfolio {
+  padding: 8rem 0;
+  background: var(--bg-light);
+}
+
+/* Complex CSS Grid with named template areas */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 1.5rem;
+}
+
+/* GRID SPANNING — items that span multiple columns/rows */
+.portfolio-item--large {
+  grid-column: 1 / 3;    /* spans 2 columns */
+  grid-row: 1;
+}
+
+.portfolio-item--wide {
+  grid-column: 1 / 3;    /* spans 2 columns */
+  grid-row: 2;
+}
+
+.portfolio-item {
+  position: relative;       /* POSITIONING TYPE 2: relative */
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.portfolio-item img {
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+  display: block;
+}
+
+/* PORTFOLIO OVERLAY — position: absolute */
+.portfolio-overlay {
+  position: absolute;       /* POSITIONING TYPE 3: absolute */
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.9) 0%,
+    rgba(0,0,0,0.3) 50%,
+    transparent 100%
+  );
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  /* Hidden by default, revealed on hover */
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* PSEUDO-CLASS :hover to reveal overlay */
+.portfolio-item:hover .portfolio-overlay {
+  opacity: 1;
+}
+
+.portfolio-item:hover img {
+  transform: scale(1.08);
+}
+
+.portfolio-tag {
+  display: inline-block;
+  background: var(--accent);
+  color: #000;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  margin-bottom: 0.75rem;
+  width: fit-content;
+
+  /* Slide up animation on hover */
+  transform: translateY(10px);
+  transition: transform 0.4s ease 0.1s;
+}
+
+.portfolio-item:hover .portfolio-tag {
+  transform: translateY(0);
+}
+
+.portfolio-overlay h3 {
+  font-family: var(--font-head);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+
+  transform: translateY(10px);
+  transition: transform 0.4s ease 0.15s;
+}
+
+.portfolio-item:hover .portfolio-overlay h3 {
+  transform: translateY(0);
+}
+
+.portfolio-overlay p {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.85rem;
+
+  transform: translateY(10px);
+  transition: transform 0.4s ease 0.2s;
+}
+
+.portfolio-item:hover .portfolio-overlay p {
+  transform: translateY(0);
+}
+
+
+/* ================================================================
+   ABOUT SECTION
+================================================================ */
+.about {
+  padding: 8rem 0;
+}
+
+.about-container {
+  display: flex;             /* FLEXBOX */
+  gap: 5rem;
+  align-items: center;
+}
+
+.about-visual {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Stacked images using position: absolute and relative */
+.about-img-stack {
+  position: relative;       /* POSITIONING TYPE 2: relative */
+  height: 520px;
+}
+
+.about-img {
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+}
+
+.about-img--back {
+  position: absolute;       /* POSITIONING TYPE 3: absolute */
+  width: 80%;
+  height: 80%;
+  top: 0;
+  left: 0;
+  border: 3px solid var(--bg-light);
+  z-index: 1;
+}
+
+.about-img--front {
+  position: absolute;       /* POSITIONING TYPE 3: absolute */
+  width: 65%;
+  height: 65%;
+  bottom: 0;
+  right: 0;
+  border: 3px solid var(--bg-light);
+  z-index: 2;
+  transition: transform 0.4s ease;
+}
+
+.about-img-stack:hover .about-img--front {
+  transform: rotate(2deg) scale(1.02);
+}
+
+/* Experience badge */
+.about-badge {
+  position: absolute;       /* POSITIONING TYPE 3: absolute */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  background: var(--accent);
+  color: #000;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 700;
+  box-shadow: 0 0 0 6px var(--bg), 0 0 0 8px rgba(232,255,71,0.3);
+  animation: pulse 3s ease infinite;
+}
+
+/* ================================================================
+   @KEYFRAMES ANIMATION #5 — PULSE
+================================================================ */
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 6px var(--bg), 0 0 0 8px rgba(232,255,71,0.3); }
+  50%       { box-shadow: 0 0 0 6px var(--bg), 0 0 0 16px rgba(232,255,71,0.1); }
+}
+
+.about-badge-num {
+  font-family: var(--font-head);
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.about-badge-text {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.about-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.about-eyebrow {
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.about-desc {
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+
+.about-stats {
+  display: flex;
+  gap: 2.5rem;
+  margin: 2.5rem 0;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-stat {
+  text-align: center;
+}
+
+.about-stat-num {
+  font-family: var(--font-head);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent);
+  display: inline;
+}
+
+.about-stat p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+
+/* ================================================================
+   TEAM SECTION — 3D FLIP CARDS
+   transform: rotateY(180deg) with perspective
+================================================================ */
+.team {
+  padding: 8rem 0;
+  background: var(--bg-light);
+}
+
+.team-grid {
+  display: grid;             /* CSS GRID */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+/* The 3D flip card container */
+.team-card {
+  perspective: 1200px;       /* REQUIRED for 3D child transforms */
+  height: 380px;
+  cursor: pointer;
+}
+
+/* This wrapper holds both faces and rotates */
+.team-card-inner {
+  position: relative;       /* POSITIONING TYPE 2: relative */
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d; /* CRITICAL: makes children exist in 3D space */
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+/* HOVER triggers the flip: rotateY(180deg) */
+.team-card:hover .team-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Stagger flip delays using :nth-child */
+.team-card:nth-child(1) .team-card-inner { transition-delay: 0s; }
+.team-card:nth-child(2) .team-card-inner { transition-delay: 0.05s; }
+.team-card:nth-child(3) .team-card-inner { transition-delay: 0.1s; }
+.team-card:nth-child(4) .team-card-inner { transition-delay: 0.15s; }
+
+/* Both card faces share this base style */
+.team-card-front,
+.team-card-back {
+  position: absolute;       /* POSITIONING TYPE 3: absolute — stacked on top of each other */
+  inset: 0;
+  border-radius: var(--radius-lg);
+  backface-visibility: hidden; /* hides the face when rotated away */
+  overflow: hidden;
+}
+
+/* FRONT FACE */
+.team-card-front {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+.team-img-wrap {
+  width: 100%;
+  height: 65%;
+  overflow: hidden;
+}
+
+.team-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.team-card:hover .team-img-wrap img {
+  transform: scale(1.05);
+}
+
+.team-info {
+  padding: 1.25rem;
+}
+
+.team-info h3 {
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.team-info span {
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* BACK FACE — rotated 180deg so it starts hidden */
+.team-card-back {
+  background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
+  transform: rotateY(180deg); /* pre-rotated so it faces away */
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.team-card-back h3 {
+  font-family: var(--font-head);
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.team-card-back p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+  font-style: italic;
+}
+
+.team-bio {
+  font-size: 0.8rem !important;
+  font-style: normal !important;
+  color: rgba(255,255,255,0.7) !important;
+}
+
+.team-socials {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.team-socials a {
+  width: 36px;
+  height: 36px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.team-socials a:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-3px);
+}
+
+
+/* ================================================================
+   CONTACT SECTION
+================================================================ */
+.contact {
+  padding: 8rem 0;
+}
+
+.contact-container {
+  display: flex;             /* FLEXBOX */
+  gap: 5rem;
+  align-items: flex-start;
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-desc {
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin: 1.5rem 0 2.5rem;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.contact-item i {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.contact-item:hover i {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+.social-links {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.social-link {
+  width: 44px;
+  height: 44px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+/* ADVANCED HOVER: glow + scale + color change */
+.social-link:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(232, 255, 71, 0.3);
+}
+
+/* ================================================================
+   CONTACT FORM — Animated floating label inputs
+================================================================ */
+.contact-form {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  position: relative;       /* POSITIONING TYPE 2: relative — for label positioning */
+}
+
+/* SELECTOR TYPE 4 — ATTRIBUTE SELECTORS for form inputs */
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.25rem 0.75rem;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none;
+}
+
+/* PSEUDO-CLASS :focus — styles input when active */
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(232,255,71,0.1);
+}
+
+/* PSEUDO-ELEMENT ::placeholder — styles the placeholder text */
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+textarea::placeholder {
+  color: transparent; /* hide default placeholder (label replaces it) */
+}
+
+.form-group label {
+  position: absolute;       /* POSITIONING TYPE 3: absolute */
+  top: 1rem;
+  left: 1.25rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  transition: all 0.25s ease;
+  pointer-events: none;
+}
+
+/* Float the label up when input is focused or has content */
+input:focus ~ label,
+input:not(:placeholder-shown) ~ label,
+select:focus ~ label,
+textarea:focus ~ label,
+textarea:not(:placeholder-shown) ~ label {
+  top: 0.4rem;
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+select option {
+  background: var(--bg-card);
+  color: var(--text);
+}
+
+select option[disabled] {
+  color: var(--text-muted);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+
+/* ================================================================
+   FOOTER
+================================================================ */
+.footer {
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  padding: 5rem 0 2rem;
+}
+
+.footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer-logo {
+  font-size: 1.8rem;
+}
+
+.footer-tagline {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.footer-socials a {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-light);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.footer-socials a:hover {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.footer-col h4 {
+  font-family: var(--font-head);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.footer-col ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-col a {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+  position: relative;       /* POSITIONING TYPE 2: relative */
+  width: fit-content;
+}
+
+/* PSEUDO-ELEMENT — ::after on footer links */
+.footer-col a::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.footer-col a:hover {
+  color: var(--text);
+}
+
+.footer-col a:hover::after {
+  width: 100%;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-bottom p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+
+/* ================================================================
+   BACK TO TOP BUTTON — position: fixed
+================================================================ */
+.back-to-top {
+  position: fixed;           /* POSITIONING TYPE 4: fixed */
+  bottom: 2rem;
+  right: 2rem;
+  width: 48px;
+  height: 48px;
+  background: var(--accent);
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.back-to-top:hover {
+  background: #fff;
+  transform: translateY(-4px);
+}
+
+
+/* ================================================================
+   RESPONSIVE DESIGN — MEDIA QUERIES
+================================================================ */
+
+/* ---- TABLET: max-width 1024px ---- */
+@media (max-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-stats {
+    display: none;
+  }
+
+  .about-container {
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .about-img-stack {
+    height: 380px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .contact-container {
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .footer-nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---- MOBILE: max-width 768px ---- */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: absolute;     /* POSITIONING TYPE 3: absolute */
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 15, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-label {
+    display: none;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-item--large,
+  .portfolio-item--wide {
+    grid-column: 1;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-stats {
+    gap: 1.5rem;
+  }
+
+  .footer-nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-top {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ---- SMALL MOBILE: max-width 480px ---- */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+  }
+
+  .hero-cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .about-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+</style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVBAR — position: fixed (Positioning Type #4)
+  ============================================================ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <!-- Element selector target: .nav-logo -->
+      <a href="#home" class="nav-logo">
+        <!-- ::before pseudo-element #1: decorative dot -->
+        Nexa<span>Craft</span>
+      </a>
+      <ul class="nav-links">
+        <!-- Attribute selector target: [href] -->
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO SECTION
+       - Typing animation (@keyframes)
+       - Gradient text
+       - ::before background overlay (Pseudo-element #2)
+  ============================================================ -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <p class="hero-eyebrow">✦ Award-Winning Studio</p>
+      <!-- The typing animation is on this element -->
+      <h1 class="hero-title">
+        We Build<br />
+        <span class="typing-text">Digital Experiences</span>
+      </h1>
+      <p class="hero-subtitle">
+        From bold brand identities to immersive web experiences —<br />
+        we craft work that moves people and drives results.
+      </p>
+      <div class="hero-cta">
+        <a href="#portfolio" class="btn btn-primary">View Our Work</a>
+        <a href="#contact" class="btn btn-outline">Start a Project</a>
+      </div>
+      <!-- Scroll indicator — position: absolute inside hero -->
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </div>
+    <!-- Floating shapes — position: absolute (Positioning Type #3) -->
+    <div class="hero-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    <!-- Stat badges — position: absolute -->
+    <div class="hero-stats">
+      <div class="stat-badge">
+        <span class="stat-number">150+</span>
+        <span class="stat-label">Projects</span>
+      </div>
+      <div class="stat-badge">
+        <span class="stat-number">8yr</span>
+        <span class="stat-label">Experience</span>
+      </div>
+      <div class="hero-img-wrap">
+        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=500&q=80" alt="Creative work" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MARQUEE / TICKER
+       - @keyframes infinite scroll animation
+  ============================================================ -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span>Branding</span><span>✦</span>
+      <span>Web Design</span><span>✦</span>
+      <span>Motion Graphics</span><span>✦</span>
+      <span>UI / UX</span><span>✦</span>
+      <span>Development</span><span>✦</span>
+      <span>Strategy</span><span>✦</span>
+      <span>Branding</span><span>✦</span>
+      <span>Web Design</span><span>✦</span>
+      <span>Motion Graphics</span><span>✦</span>
+      <span>UI / UX</span><span>✦</span>
+      <span>Development</span><span>✦</span>
+      <span>Strategy</span><span>✦</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SERVICES SECTION
+       - 3D Card hover (transform: perspective + rotateY)
+       - ::before glow overlay on cards (Pseudo-element #3)
+       - nth-child selector (Pseudo-class selector)
+  ============================================================ -->
+  <section class="services" id="services">
+    <!-- position: sticky example (Positioning Type #5) on section label -->
+    <div class="section-label">Services</div>
+    <div class="container">
+      <div class="section-header">
+        <!-- ::after underline decoration (Pseudo-element #4) -->
+        <h2 class="section-title">What We <span>Do</span></h2>
+        <p class="section-subtitle">
+          End-to-end creative services for ambitious brands
+        </p>
+      </div>
+      <div class="services-grid">
+
+        <!-- SERVICE CARD: 3D hover + ::before glow -->
+        <div class="service-card" data-index="01">
+          <div class="service-card-inner">
+            <div class="service-icon">
+              <i class="fa-solid fa-pen-nib"></i>
+            </div>
+            <h3>Brand Identity</h3>
+            <p>Logo systems, visual language, and brand guidelines that make you impossible to ignore.</p>
+            <a href="#contact" class="service-link">Explore <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="service-card" data-index="02">
+          <div class="service-card-inner">
+            <div class="service-icon">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <h3>Web Design</h3>
+            <p>Pixel-perfect interfaces with intuitive flows, designed to convert visitors into customers.</p>
+            <a href="#contact" class="service-link">Explore <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="service-card" data-index="03">
+          <div class="service-card-inner">
+            <div class="service-icon">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <h3>Development</h3>
+            <p>Blazing-fast websites and web apps built with modern tech, focused on performance.</p>
+            <a href="#contact" class="service-link">Explore <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="service-card" data-index="04">
+          <div class="service-card-inner">
+            <div class="service-icon">
+              <i class="fa-solid fa-film"></i>
+            </div>
+            <h3>Motion & Video</h3>
+            <p>Animated brand stories and video content that capture attention in the first 3 seconds.</p>
+            <a href="#contact" class="service-link">Explore <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="service-card" data-index="05">
+          <div class="service-card-inner">
+            <div class="service-icon">
+              <i class="fa-solid fa-mobile-screen"></i>
+            </div>
+            <h3>UI / UX Design</h3>
+            <p>Research-backed experiences for mobile and web — designed to delight real users.</p>
+            <a href="#contact" class="service-link">Explore <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="service-card" data-index="06">
+          <div class="service-card-inner">
+            <div class="service-icon">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <h3>Growth Strategy</h3>
+            <p>Data-driven campaigns and funnels that turn creative assets into measurable ROI.</p>
+            <a href="#contact" class="service-link">Explore <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PORTFOLIO SECTION
+       - CSS Grid with named areas
+       - ::after caption overlay (Pseudo-element #5)
+       - :hover state revealing content
+  ============================================================ -->
+  <section class="portfolio" id="portfolio">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Selected <span>Work</span></h2>
+        <p class="section-subtitle">A curated selection of our latest projects</p>
+      </div>
+      <div class="portfolio-grid">
+
+        <div class="portfolio-item portfolio-item--large">
+          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80" alt="Branding Project" />
+          <div class="portfolio-overlay">
+            <span class="portfolio-tag">Branding</span>
+            <h3>Luminary Cosmetics</h3>
+            <p>Full identity redesign for a luxury skincare brand</p>
+          </div>
+        </div>
+
+        <div class="portfolio-item">
+          <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&q=80" alt="Web Design" />
+          <div class="portfolio-overlay">
+            <span class="portfolio-tag">Web Design</span>
+            <h3>Orion Finance</h3>
+            <p>SaaS dashboard & landing page</p>
+          </div>
+        </div>
+
+        <div class="portfolio-item">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Mobile App" />
+          <div class="portfolio-overlay">
+            <span class="portfolio-tag">UI / UX</span>
+            <h3>Petal Health App</h3>
+            <p>Mobile app for wellness tracking</p>
+          </div>
+        </div>
+
+        <div class="portfolio-item portfolio-item--wide">
+          <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=900&q=80" alt="Motion" />
+          <div class="portfolio-overlay">
+            <span class="portfolio-tag">Motion</span>
+            <h3>Vanta Studios Showreel</h3>
+            <p>Brand film and motion identity system</p>
+          </div>
+        </div>
+
+        <div class="portfolio-item">
+          <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?w=600&q=80" alt="E-commerce" />
+          <div class="portfolio-overlay">
+            <span class="portfolio-tag">Development</span>
+            <h3>Forge Streetwear</h3>
+            <p>Custom e-commerce platform</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT SECTION
+       - Complex Flexbox layout
+       - Counter animation (@keyframes)
+       - position: relative for image stack
+  ============================================================ -->
+  <section class="about" id="about">
+    <div class="container about-container">
+      <div class="about-visual">
+        <!-- Stacked images using position: absolute (Positioning Type #3) -->
+        <div class="about-img-stack">
+          <img class="about-img about-img--back" src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&q=80" alt="Studio" />
+          <img class="about-img about-img--front" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&q=80" alt="Team" />
+          <!-- ::before badge (Pseudo-element already counted, but shown here for reference) -->
+          <div class="about-badge">
+            <span class="about-badge-num">8+</span>
+            <span class="about-badge-text">Years<br />of Craft</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-content">
+        <p class="about-eyebrow">✦ Our Story</p>
+        <h2 class="section-title">Craft Meets <span>Strategy</span></h2>
+        <p class="about-desc">
+          NexaCraft was founded in 2016 by a small team of designers and engineers obsessed with the intersection of beautiful work and measurable outcomes. Today we're a studio of 24, operating across design, technology, and strategy.
+        </p>
+        <p class="about-desc">
+          We believe great work takes time, intention, and a willingness to ask hard questions. Every project starts with deep discovery — because we'd rather build the right thing than build the thing fast.
+        </p>
+        <div class="about-stats">
+          <div class="about-stat">
+            <span class="about-stat-num" data-target="150">0</span><span>+</span>
+            <p>Projects Delivered</p>
+          </div>
+          <div class="about-stat">
+            <span class="about-stat-num" data-target="48">0</span>
+            <p>Happy Clients</p>
+          </div>
+          <div class="about-stat">
+            <span class="about-stat-num" data-target="12">0</span>
+            <p>Industry Awards</p>
+          </div>
+        </div>
+        <a href="#contact" class="btn btn-primary">Work With Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TEAM SECTION
+       - 3D Card Flip on hover (rotateY 180deg)
+       - CSS Grid layout
+       - :nth-child selector (animation-delay stagger)
+  ============================================================ -->
+  <section class="team" id="team">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Meet the <span>Team</span></h2>
+        <p class="section-subtitle">The creative minds behind every project</p>
+      </div>
+      <div class="team-grid">
+
+        <!-- FLIP CARD: rotateY 3D transform -->
+        <div class="team-card">
+          <div class="team-card-inner">
+            <!-- Front face -->
+            <div class="team-card-front">
+              <div class="team-img-wrap">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Alex Mercer" />
+              </div>
+              <div class="team-info">
+                <h3>Alex Mercer</h3>
+                <span>Creative Director</span>
+              </div>
+            </div>
+            <!-- Back face -->
+            <div class="team-card-back">
+              <h3>Alex Mercer</h3>
+              <p>"Design is how it works, not how it looks."</p>
+              <p class="team-bio">10 years leading creative for brands across NYC and London. Formerly at Pentagram.</p>
+              <div class="team-socials">
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-behance"></i></a>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-card-inner">
+            <div class="team-card-front">
+              <div class="team-img-wrap">
+                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b5c9?w=400&q=80" alt="Sana Rafi" />
+              </div>
+              <div class="team-info">
+                <h3>Sana Rafi</h3>
+                <span>Lead Designer</span>
+              </div>
+            </div>
+            <div class="team-card-back">
+              <h3>Sana Rafi</h3>
+              <p>"Good design is invisible. Great design is unforgettable."</p>
+              <p class="team-bio">Brand strategist and visual designer. Obsessed with typography and spatial composition.</p>
+              <div class="team-socials">
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-dribbble"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-card-inner">
+            <div class="team-card-front">
+              <div class="team-img-wrap">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="Omar Tahir" />
+              </div>
+              <div class="team-info">
+                <h3>Omar Tahir</h3>
+                <span>Tech Lead</span>
+              </div>
+            </div>
+            <div class="team-card-back">
+              <h3>Omar Tahir</h3>
+              <p>"The best code is the code no one notices."</p>
+              <p class="team-bio">Full-stack developer. Turns complex ideas into elegant, performant experiences.</p>
+              <div class="team-socials">
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-card-inner">
+            <div class="team-card-front">
+              <div class="team-img-wrap">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80" alt="Laila Chen" />
+              </div>
+              <div class="team-info">
+                <h3>Laila Chen</h3>
+                <span>Strategy Director</span>
+              </div>
+            </div>
+            <div class="team-card-back">
+              <h3>Laila Chen</h3>
+              <p>"Strategy without creativity is just a spreadsheet."</p>
+              <p class="team-bio">Brand strategist with roots in behavioral economics. Bridges insight and execution.</p>
+              <div class="team-socials">
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT SECTION
+       - Animated form inputs (:focus pseudo-class)
+       - ::placeholder pseudo-element styling (Pseudo-element #6... bonus!)
+       - Flexbox layout
+  ============================================================ -->
+  <section class="contact" id="contact">
+    <div class="container contact-container">
+      <div class="contact-info">
+        <p class="about-eyebrow">✦ Get In Touch</p>
+        <h2 class="section-title">Let's Build<br /><span>Something Great</span></h2>
+        <p class="contact-desc">
+          Have a project in mind? We'd love to hear about it. Drop us a message and we'll get back to you within 24 hours.
+        </p>
+        <div class="contact-details">
+          <div class="contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <span>hello@nexacraft.studio</span>
+          </div>
+          <div class="contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <span>+1 (212) 456-7890</span>
+          </div>
+          <div class="contact-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>123 Design Ave, New York, NY</span>
+          </div>
+        </div>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fa-brands fa-behance"></i></a>
+          <a href="#" class="social-link"><i class="fa-brands fa-dribbble"></i></a>
+          <a href="#" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
+        </div>
+      </div>
+
+      <form class="contact-form" onsubmit="return false;">
+        <div class="form-group">
+          <input type="text" id="name" name="name" placeholder="Your Name" required />
+          <label for="name">Your Name</label>
+        </div>
+        <div class="form-group">
+          <!-- Attribute selector: input[type="email"] -->
+          <input type="email" id="email" name="email" placeholder="Email Address" required />
+          <label for="email">Email Address</label>
+        </div>
+        <div class="form-group">
+          <!-- Attribute selector: select[name] -->
+          <select name="service" id="service">
+            <option value="" disabled selected>Select a Service</option>
+            <option value="branding">Brand Identity</option>
+            <option value="web">Web Design</option>
+            <option value="dev">Development</option>
+            <option value="motion">Motion & Video</option>
+            <option value="strategy">Strategy</option>
+          </select>
+          <label for="service">Service</label>
+        </div>
+        <div class="form-group">
+          <textarea name="message" id="message" rows="4" placeholder="Tell us about your project..."></textarea>
+          <label for="message">Message</label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">
+          Send Message <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <a href="#home" class="nav-logo footer-logo">Nexa<span>Craft</span></a>
+        <p class="footer-tagline">We make the web feel human.</p>
+        <div class="footer-socials">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-behance"></i></a>
+          <a href="#"><i class="fa-brands fa-dribbble"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Brand Identity</a></li>
+            <li><a href="#services">Web Design</a></li>
+            <li><a href="#services">Development</a></li>
+            <li><a href="#services">Motion</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#team">Our Team</a></li>
+            <li><a href="#portfolio">Work</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Case Studies</a></li>
+            <li><a href="#">Process</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 NexaCraft Studio. All rights reserved.</p>
+        <p>Designed & Built with ♥ in New York</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top — position: fixed (Positioning Type #4 again) -->
+  <a href="#home" class="back-to-top" id="backToTop">
+    <i class="fa-solid fa-chevron-up"></i>
+  </a>
+
+  <!-- <script>
+// ================================================================
+// NEXACRAFT — script.js
+// Minimal JS for interactive features
+// Core logic — students focus on HTML/CSS, JS is just helper code
+// ================================================================
+
+// ----------------------------------------------------------------
+// 1. NAVBAR: Add .scrolled class when user scrolls down
+// ----------------------------------------------------------------
+const navbar   = document.getElementById('navbar');
+const backToTop = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY > 60;
+
+  // Toggle scrolled class for navbar background
+  navbar.classList.toggle('scrolled', scrolled);
+
+  // Show/hide back to top button
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// ----------------------------------------------------------------
+// 2. HAMBURGER MENU toggle for mobile nav
+// ----------------------------------------------------------------
+const hamburger = document.getElementById('hamburger');
+const navLinks  = document.querySelector('.nav-links');
+
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+  hamburger.classList.toggle('open');
+});
+
+// Close menu when a nav link is clicked (mobile)
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('active');
+    hamburger.classList.remove('open');
+  });
+});
+
+// ----------------------------------------------------------------
+// 3. COUNTER ANIMATION for About section stats
+// Animates numbers from 0 to their target value
+// ----------------------------------------------------------------
+function animateCounter(el) {
+  const target   = parseInt(el.getAttribute('data-target'));
+  const duration = 1800; // ms
+  const step     = target / (duration / 16); // ~60fps
+  let   current  = 0;
+
+  const timer = setInterval(() => {
+    current += step;
+    if (current >= target) {
+      current = target;
+      clearInterval(timer);
+    }
+    el.textContent = Math.floor(current);
+  }, 16);
+}
+
+// Use IntersectionObserver to trigger counter when in view
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target); // only animate once
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.about-stat-num').forEach(el => {
+  counterObserver.observe(el);
+});
+
+// ----------------------------------------------------------------
+// 4. SCROLL-TRIGGERED FADE IN ANIMATIONS
+// Adds .visible class to elements as they enter the viewport
+// (CSS handles the actual animation via transition/opacity)
+// ----------------------------------------------------------------
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.animation = 'fadeInUp 0.7s ease forwards';
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+// Apply to service cards, portfolio items, team cards
+document.querySelectorAll(
+  '.service-card, .portfolio-item, .team-card, .contact-item'
+).forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.animationDelay = `${i * 0.1}s`;
+  fadeObserver.observe(el);
+});
+
+// ----------------------------------------------------------------
+// 5. SERVICE CARD — mouse-tracking glow effect
+// Moves the ::before glow based on mouse position within the card
+// ----------------------------------------------------------------
+document.querySelectorAll('.service-card-inner').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width)  * 100;
+    const y = ((e.clientY - rect.top)  / rect.height) * 100;
+
+    // We update CSS custom property so ::before can use it
+    card.style.setProperty('--mouse-x', `${x}%`);
+    card.style.setProperty('--mouse-y', `${y}%`);
+
+    // Update the ::before background position dynamically
+    card.style.backgroundImage =
+      `radial-gradient(circle at ${x}% ${y}%, rgba(232,255,71,0.04) 0%, transparent 60%)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.backgroundImage = 'none';
+  });
+});
+
+// ----------------------------------------------------------------
+// 6. ACTIVE NAV LINK on scroll (highlights current section)
+// ----------------------------------------------------------------
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-links a[href^="#"]');
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navItems.forEach(link => {
+        link.style.color = link.getAttribute('href') === `#${id}`
+          ? 'var(--accent)'
+          : '';
+      });
+    }
+  });
+}, { threshold: 0.4 });
+
+sections.forEach(section => sectionObserver.observe(section));
+
+// ----------------------------------------------------------------
+// 7. FORM SUBMIT feedback (basic)
+// ----------------------------------------------------------------
+const form = document.querySelector('.contact-form');
+if (form) {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    const original = btn.innerHTML;
+    btn.innerHTML = '✓ Message Sent!';
+    btn.style.background = '#4caf50';
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.style.background = '';
+      form.reset();
+    }, 3000);
+  });
+}
+
+</script> -->
+</body>
+</html>
