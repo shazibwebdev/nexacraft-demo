@@ -444,7 +444,7 @@ img {
   display: flex;
   align-items: center;
   padding: 8rem 2rem 4rem;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
   position: relative;        /* POSITIONING TYPE 2: relative — for absolute children */
   overflow: hidden;
@@ -452,6 +452,7 @@ img {
 
 .hero-content {
   width: 100%;
+  padding: 0px 40px;
   position: relative;
   z-index: 2;
 }
@@ -630,10 +631,6 @@ img {
 
 /* Hero stats on the right */
 .hero-stats {
-  position: absolute;        /* POSITIONING TYPE 3: absolute */
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -704,6 +701,7 @@ img {
   display: flex;
   gap: 2.5rem;
   width: max-content;
+  border: 2px solid white;
 
   /* ================================================================
      @KEYFRAMES ANIMATION #3 — MARQUEE SCROLL
@@ -1453,21 +1451,26 @@ textarea::placeholder {
 
 .form-group label {
   position: absolute;       /* POSITIONING TYPE 3: absolute */
-  top: 1rem;
+  top: 10px;
   left: 1.25rem;
   color: var(--text-muted);
   font-size: 0.9rem;
   transition: all 0.25s ease;
   pointer-events: none;
+  background-color: #111118;
+  padding: 5px;
 }
 
 /* Float the label up when input is focused or has content */
 input:focus ~ label,
-input:not(:placeholder-shown) ~ label,
-select:focus ~ label,
 textarea:focus ~ label,
-textarea:not(:placeholder-shown) ~ label {
-  top: 0.4rem;
+textarea:not(:placeholder-shown) ~ label,
+input:not(:placeholder-shown) ~ label
+/* select:focus ~ label,
+textarea:focus ~ label,
+textarea:not(:placeholder-shown) ~ label */
+{
+  top: -13px;
   font-size: 0.7rem;
   color: var(--accent);
   letter-spacing: 0.05em;
@@ -1753,6 +1756,10 @@ textarea {
 @media (max-width: 480px) {
   .hero-title {
     font-size: 2.5rem;
+  }
+
+  .hero-content{
+    padding: 0px 10px;
   }
 
   .hero-cta {
@@ -2254,7 +2261,6 @@ textarea {
             <option value="motion">Motion & Video</option>
             <option value="strategy">Strategy</option>
           </select>
-          <label for="service">Service</label>
         </div>
         <div class="form-group">
           <textarea name="message" id="message" rows="4" placeholder="Tell us about your project..."></textarea>
